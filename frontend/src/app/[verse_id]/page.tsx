@@ -42,7 +42,7 @@ export const generateMetadata = async ({
       "of:button:1:target": `${env.NEXT_PUBLIC_BFF_API_URL}/frames/travel-back`,
       "fc:frame:button:1": "Travel Back",
       "fc:frame:button:1:action": "post",
-      "fc:frame:button:1:post_url": `${env.NEXT_PUBLIC_BFF_API_URL}/frames/travel-back`,
+      "fc:frame:button:1:target": `${env.NEXT_PUBLIC_BFF_API_URL}/frames/travel-back`,
       "of:input:text": "Write down your story",
       "fc:frame:input:text": "Write down your story",
       "of:button:2": "Continue",
@@ -50,7 +50,7 @@ export const generateMetadata = async ({
       "of:button:2:target": `${env.NEXT_PUBLIC_BFF_API_URL}/frames/continue`,
       "fc:frame:button:2": "Continue",
       "fc:frame:button:2:action": "post",
-      "fc:frame:button:2:post_url": `${env.NEXT_PUBLIC_BFF_API_URL}/frames/continue`,
+      "fc:frame:button:2:target": `${env.NEXT_PUBLIC_BFF_API_URL}/frames/continue`,
     },
   };
 };

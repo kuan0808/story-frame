@@ -87,7 +87,7 @@ export const computeOfHtml = (params: ComputeOfHtmlParams) => {
                   : `
                   <meta property="fc:frame:button:${
                     index + 1
-                  }:post_url" content="${
+                  }:target" content="${
                       env.NEXT_PUBLIC_BFF_API_URL
                     }/frames?${new URLSearchParams({
                       type: component.targetType,
