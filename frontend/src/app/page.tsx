@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     "of:button:2:target": `${env.NEXT_PUBLIC_BFF_API_URL}/frames/create-story`,
     "fc:frame:button:2": "Create Genesis Verse",
     "fc:frame:button:2:action": "post",
-    "fc:frame:button:2:post_url": `${env.NEXT_PUBLIC_BFF_API_URL}/frames/create-story`,
+    "fc:frame:button:2:target": `${env.NEXT_PUBLIC_BFF_API_URL}/frames/create-story`,
   },
 };
 
