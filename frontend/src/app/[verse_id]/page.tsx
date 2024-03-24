@@ -11,8 +11,10 @@ const Verse = async ({
   return (
     <>
       <Head>
-        <meta property="of:image" content="" />
-        <meta property="of:image:alt" content="" />
+        <meta
+          property="of:image"
+          content={`${env.NEXT_PUBLIC_BFF_API_URL}/og?verse_id=${params.verse_id}`}
+        />
         <meta
           property="og:image"
           content={`${env.NEXT_PUBLIC_BFF_API_URL}/og?verse_id=${params.verse_id}`}
@@ -37,6 +39,9 @@ const Verse = async ({
           content={`${env.NEXT_PUBLIC_BFF_API_URL}/frames/continue`}
         />
       </Head>
+      <main>
+        <h1>Welcome to Verse No.{params.verse_id}</h1>
+      </main>
     </>
   );
 };

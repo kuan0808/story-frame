@@ -5,8 +5,11 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <meta property="of:image" content="" />
-        <meta property="of:image:alt" content="" />
+        <meta
+          property="of:image"
+          content={`${env.NEXT_PUBLIC_BFF_API_URL}/og`}
+        />
+        <meta property="of:image:alt" content="Genesis Verse" />
         <meta
           property="og:image"
           content={`${env.NEXT_PUBLIC_BFF_API_URL}/og`}
