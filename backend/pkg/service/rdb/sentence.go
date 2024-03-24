@@ -70,3 +70,13 @@ func GetSiblings(verseID uint) ([]model.Sentence, error) {
 
 	return siblings, nil
 }
+
+// GetGenesis fetches the root sentence.
+func GetGenesis(verseID uint) (*model.Sentence, error) {
+	path, err := GetPathToRoot(verseID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &path[len(path)-1], nil
+}

@@ -63,3 +63,13 @@ func GetSiblings(verseID uint) ([]model.Sentence, error) {
 
 	return siblings, nil
 }
+
+// GetGenesis fetches the root sentence.
+func GetGenesis(verseID uint) (*model.Sentence, error) {
+	genesis, err := rdb.GetGenesis(verseID)
+	if err != nil {
+		return nil, err
+	}
+
+	return genesis, nil
+}

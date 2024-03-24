@@ -30,6 +30,7 @@ func main() {
 	r.POST("/create", api.CreateSentence)
 	r.GET("/:verse_id/back", api.GetParent)
 	r.GET("/:verse_id", api.GetPathAndSiblings)
+	r.GET("/:verse_id/genesis", api.GetGenesis)
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%s", appPort),

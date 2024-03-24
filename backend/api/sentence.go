@@ -71,16 +71,12 @@ func GetParent(c *gin.Context) {
 		return
 	}
 
-	response := gin.H{
-		"contents": contents,
-	}
-
-	if parent.ParentID != nil {
-		response["parent_id"] = parent.ParentID
-		response["parent_cast"] = parent.Cast
-	}
-
-	c.JSON(http.StatusOK, response)
+	c.JSON(http.StatusOK, gin.H{
+		"contents":    contents,
+		"parent_cast": parent.Cast,
+		"parent_id":   parent.ID,
+		"genesis_id":  contents[len(contents)-1].ID,
+	})
 }
 
 // GetPathAndSiblings fetches the path from the root to the given sentence, and its siblings.
@@ -110,5 +106,27 @@ func GetPathAndSiblings(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"contents":    path,
 		"sibling_ids": siblingIDs,
+		"genesis_id":  path[len(path)-1].ID,
+	})
+}
+
+// GetGenesis fetches the root sentence (Genesis) and its contents.
+func GetGenesis(c *gin.Context) {
+	verseID := c.Param("verse_id")
+
+	id, err := strconv.ParseUint(verseID, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid verse ID"})
+		return
+	}
+
+	genesis, err := ssrv.GetGenesis(uint(id))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch Genesis"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"genesis_id": genesis.ID,
 	})
 }
