@@ -44,7 +44,7 @@ export async function POST(req: Request) {
           {
             type: "button",
             label: "Continue",
-            action: "post_url",
+            action: "post",
             targetType: "continue",
             targetVerseId: verseId,
           },
@@ -54,7 +54,7 @@ export async function POST(req: Request) {
           components.unshift({
             type: "button",
             label: "Travel Back",
-            action: "post_url",
+            action: "post",
             targetType: "travel-back",
             targetVerseId: parentVerse.parent_id,
           });
@@ -123,7 +123,7 @@ export async function POST(req: Request) {
           components.unshift({
             type: "button",
             label: "Travel Back",
-            action: "post_url",
+            action: "post",
             targetType: "travel-back",
             targetVerseId: parentVerse.parent_id,
           });

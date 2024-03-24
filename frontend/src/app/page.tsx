@@ -9,23 +9,45 @@ export default function Home() {
           property="of:image"
           content={`${env.NEXT_PUBLIC_BFF_API_URL}/og`}
         />
+        <meta
+          property="fc:frame:image"
+          content={`${env.NEXT_PUBLIC_BFF_API_URL}/og`}
+        />
         <meta property="of:image:alt" content="Genesis Verse" />
         <meta
           property="og:image"
           content={`${env.NEXT_PUBLIC_BFF_API_URL}/og`}
         />
         <meta property="of:post_url" content={env.NEXT_PUBLIC_BFF_API_URL} />
+        <meta
+          property="fc:frame:post_url"
+          content={env.NEXT_PUBLIC_BFF_API_URL}
+        />
         <meta property="of:input:text" content="Verse Id" />
+        <meta property="fc:frame:input:text" content="Verse Id" />
         <meta property="of:button:1" content="Enter Verse" />
-        <meta property="of:button:1:action" content="post_url" />
+        <meta property="of:button:1:action" content="post" />
         <meta
           property="of:button:1:target"
           content={`${env.NEXT_PUBLIC_BFF_API_URL}/frames/enter-verse`}
         />
-        <meta property="of:button:1" content="Create Story" />
-        <meta property="of:button:1:action" content="post_url" />
+        <meta property="fc:frame:button:1" content="Enter Verse" />
+        <meta property="fc:frame:button:1:action" content="post" />
         <meta
-          property="of:button:1:target"
+          property="fc:frame:button:1:post_url"
+          content={`${env.NEXT_PUBLIC_BFF_API_URL}/frames/enter-verse`}
+        />
+
+        <meta property="of:button:2" content="Create Story" />
+        <meta property="of:button:2:action" content="post" />
+        <meta
+          property="of:button:2:target"
+          content={`${env.NEXT_PUBLIC_BFF_API_URL}/frames/create-story`}
+        />
+        <meta property="fc:frame:button:2" content="Create Story" />
+        <meta property="fc:frame:button:2:action" content="post" />
+        <meta
+          property="fc:frame:button:2:post_url"
           content={`${env.NEXT_PUBLIC_BFF_API_URL}/frames/create-story`}
         />
       </Head>
