@@ -91,7 +91,9 @@ export const computeOfHtml = (params: ComputeOfHtmlParams) => {
                       env.NEXT_PUBLIC_BFF_API_URL
                     }/frames?${new URLSearchParams({
                       type: component.targetType,
-                      verse_id: component.targetVerseId.toString(),
+                      ...(component.targetVerseId && {
+                        verse_id: component.targetVerseId.toString(),
+                      }),
                     }).toString()}" />
                   `
               }
