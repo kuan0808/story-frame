@@ -18,6 +18,7 @@ const RequestBodySchema = FrameActionPayloadSchema;
 const searchParamsError = createError("SearchParamsError");
 const noParentError = createError("NoParentError");
 const inputNotProvidedError = createError("InputNotProvided");
+const inputNotValidError = createError("InputNotValid");
 
 export async function POST(req: Request) {
   try {
@@ -30,16 +31,21 @@ export async function POST(req: Request) {
     const verseId = query.verse_id;
     const targetType = query.type;
 
-    match(targetType)
+    // I can't catch the error thrown inside the match block if I don't use await
+    const res = await match(targetType)
       //
       .with("enter-verse", async () => {
-        if (!verseId) throw searchParamsError("VerseIdNotProvided");
+        const input = actionInfo.action.input?.text?.trim();
+        const verseId = Number(input);
+
+        if (Number.isNaN(verseId)) throw inputNotValidError("VerseIdNotValid");
 
         const parentVerse = await travelBack(verseId);
+
         const components: Component[] = [
           {
             type: "input",
-            label: "Write your verse here",
+            label: "Write your story here",
           },
           {
             type: "button",
@@ -99,10 +105,10 @@ export async function POST(req: Request) {
         if (!input) throw inputNotProvidedError("");
 
         const res = await createVerse({
-          parent_id: verseId,
+          ...(verseId && { parent_id: verseId }),
           content: input,
           cast: actionInfo.action.cast,
-          interactor: actionInfo.action.interactor,
+          user: actionInfo.action.interactor,
         });
 
         return new Response(
@@ -127,7 +133,7 @@ export async function POST(req: Request) {
         if (!verseId) throw searchParamsError("VerseIdNotProvided");
 
         const parentVerse = await travelBack(verseId);
-        if (!parentVerse.parent_id)
+        if (!parentVerse.parent_id || !parentVerse.parent_cast)
           //FIXME: This should be a better error
           throw noParentError("No parent verse found");
 
@@ -137,7 +143,7 @@ export async function POST(req: Request) {
             type: "button",
             label: "Step In",
             action: "link",
-            target: computeCastUrl(parentVerse.parent_cast!),
+            target: computeCastUrl(parentVerse.parent_cast.Data),
           },
         ];
 
@@ -161,10 +167,11 @@ export async function POST(req: Request) {
           }
         );
       })
-
       .exhaustive();
+
+    return res;
   } catch (error) {
-    console.error(error);
+    console.error("Error:", error);
 
     return new Response(
       computeOfHtml({

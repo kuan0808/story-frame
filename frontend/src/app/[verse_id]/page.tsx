@@ -1,4 +1,4 @@
-import { getGenesisVerseId } from "@/common/lib/traverse";
+import { getGenesisVerseId, getVerseInfo } from "@/common/lib/traverse";
 import { env } from "@/env.mjs";
 import { Metadata } from "next";
 
@@ -11,14 +11,11 @@ type Props = {
 export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
-  let genesisVerseId = 0;
-  try {
-    const res = await getGenesisVerseId(Number(params.verse_id));
-    genesisVerseId = res.genesis_id;
-  } catch (e) {
-    console.error(e);
-  }
-  const isGenesisVerse = genesisVerseId.toString() === params.verse_id;
+  const res = await getVerseInfo(params.verse_id);
+  const genesisVerseId = res.genesis_id;
+  const hasParent = res.contents.length > 1;
+
+  const isGenesisVerse = genesisVerseId?.toString() === params.verse_id;
   const verseFullId = isGenesisVerse
     ? params.verse_id
     : `${genesisVerseId}🍂${params.verse_id}`;
@@ -37,20 +34,26 @@ export const generateMetadata = async ({
       "of:image": `${env.NEXT_PUBLIC_BFF_API_URL}/og?verse_id=${params.verse_id}`,
       "fc:frame:image": `${env.NEXT_PUBLIC_BFF_API_URL}/og?verse_id=${params.verse_id}`,
       "og:image": `${env.NEXT_PUBLIC_BFF_API_URL}/og?verse_id=${params.verse_id}`,
-      "of:button:1": "Travel Back",
-      "of:button:1:action": "post",
-      "of:button:1:target": `${env.NEXT_PUBLIC_BFF_API_URL}/frames/travel-back`,
-      "fc:frame:button:1": "Travel Back",
-      "fc:frame:button:1:action": "post",
-      "fc:frame:button:1:target": `${env.NEXT_PUBLIC_BFF_API_URL}/frames/travel-back`,
+      ...(hasParent && {
+        "of:button:1": "Travel Back",
+        "of:button:1:action": "post",
+        "of:button:1:target": `${env.NEXT_PUBLIC_BFF_API_URL}/frames?type=travel-back&verse_id=${params.verse_id}`,
+        "fc:frame:button:1": "Travel Back",
+        "fc:frame:button:1:action": "post",
+        "fc:frame:button:1:target": `${env.NEXT_PUBLIC_BFF_API_URL}/frames?type=travel-back&verse_id=${params.verse_id}`,
+      }),
       "of:input:text": "Write down your story",
       "fc:frame:input:text": "Write down your story",
-      "of:button:2": "Continue",
-      "of:button:2:action": "post_url",
-      "of:button:2:target": `${env.NEXT_PUBLIC_BFF_API_URL}/frames/continue`,
-      "fc:frame:button:2": "Continue",
-      "fc:frame:button:2:action": "post",
-      "fc:frame:button:2:target": `${env.NEXT_PUBLIC_BFF_API_URL}/frames/continue`,
+      [`of:button:${hasParent ? 2 : 1}`]: "Continue",
+      [`of:button:${hasParent ? 2 : 1}:action`]: "post_url",
+      [`of:button:${
+        hasParent ? 2 : 1
+      }:target`]: `${env.NEXT_PUBLIC_BFF_API_URL}/frames?type=continue&verse_id=${params.verse_id}`,
+      [`fc:frame:button:${hasParent ? 2 : 1}`]: "Continue",
+      [`fc:frame:button:${hasParent ? 2 : 1}:action`]: "post",
+      [`fc:frame:button:${
+        hasParent ? 2 : 1
+      }:target`]: `${env.NEXT_PUBLIC_BFF_API_URL}/frames?type=continue&verse_id=${params.verse_id}`,
     },
   };
 };
@@ -73,7 +76,7 @@ const Verse = async ({
   return (
     <>
       <main>
-        <h1>Welcome to Verse No.{verseFullId}</h1>
+        <h1 className="text-6xl">Welcome to Verse No.{verseFullId}</h1>
       </main>
     </>
   );

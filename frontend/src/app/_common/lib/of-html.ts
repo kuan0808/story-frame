@@ -33,12 +33,15 @@ export interface ComputeOfHtmlParams {
 }
 
 export const computeOfHtml = (params: ComputeOfHtmlParams) => {
+  let buttonIndex = 0;
   const head = `
     <head>
       <meta property="of:image" content="${params.imagePath}" />
       <meta property="fc:frame:image" content="${params.imagePath}" />
       <meta property="of:image:alt" content="${params.imageAlt}" />
       <meta property="og:image" content="${params.imagePath}" />
+      <meta property="of:image:aspect_ratio" content="1:1" />
+      <meta property="fc:frame:image:aspect_ratio" content="1:1" />
 
       <meta property="of:post_url" content="${params.postUrl}" />
       <meta property="fc:frame:post_url" content="${params.postUrl}" />
@@ -46,22 +49,22 @@ export const computeOfHtml = (params: ComputeOfHtmlParams) => {
         params.components
           ?.map((component, index) => {
             if (component.type === "button") {
+              buttonIndex++;
+
               return `
-              <meta property="of:button:${index + 1}" content="${
+              <meta property="of:button:${buttonIndex}" content="${
                 component.label
               }" />
-              <meta property="of:button:${index + 1}:action" content="${
+              <meta property="of:button:${buttonIndex}:action" content="${
                 component.action
               }" />
               ${
                 component.action === "link"
                   ? `
-                  <meta property="of:button:${index + 1}:target" content="${
-                      component.target
-                    }" />
+                  <meta property="of:button:${buttonIndex}:target" content="${component.target}" />
                   `
                   : `
-                  <meta property="of:button:${index + 1}:target" content="${
+                  <meta property="of:button:${buttonIndex}:target" content="${
                       env.NEXT_PUBLIC_BFF_API_URL
                     }/frames?${new URLSearchParams({
                       type: component.targetType,
@@ -71,23 +74,19 @@ export const computeOfHtml = (params: ComputeOfHtmlParams) => {
                     }).toString()}" />
                   `
               }
-              <meta property="fc:frame:button:${index + 1}" content="${
+              <meta property="fc:frame:button:${buttonIndex}" content="${
                 component.label
               }" />
-              <meta property="fc:frame:button:${index + 1}:action" content="${
+              <meta property="fc:frame:button:${buttonIndex}:action" content="${
                 component.action
               }" />
               ${
                 component.action === "link"
                   ? `
-                  <meta property="fc:frame:button:${
-                    index + 1
-                  }:target" content="${component.target}" />
+                  <meta property="fc:frame:button:${buttonIndex}:target" content="${component.target}" />
                   `
                   : `
-                  <meta property="fc:frame:button:${
-                    index + 1
-                  }:target" content="${
+                  <meta property="fc:frame:button:${buttonIndex}:target" content="${
                       env.NEXT_PUBLIC_BFF_API_URL
                     }/frames?${new URLSearchParams({
                       type: component.targetType,

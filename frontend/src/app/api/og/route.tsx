@@ -15,6 +15,10 @@ export const GET = async (req: Request) => {
     const { searchParams } = new URL(req.url);
     const query = RequestQuerySchema.parse(Object.fromEntries(searchParams));
 
+    const fontData = await fetch(
+      new URL("../../../assets/SpecialElite-Regular.ttf", import.meta.url)
+    ).then((res) => res.arrayBuffer());
+
     const verseId = query.verse_id;
     if (!verseId) {
       return new ImageResponse(
@@ -22,24 +26,38 @@ export const GET = async (req: Request) => {
           <div
             style={{
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
               width: "100%",
               height: "100%",
               backgroundColor: "black",
+              gap: "1rem",
+              fontFamily: '"Typewriter"',
             }}
           >
-            <h1 tw="text-white text-4xl">Welcome to Story Verse</h1>
+            <h1 tw="text-white text-6xl">Welcome to Story Verse 📖</h1>
+            <p tw="text-white text-4xl m-12">
+              A place where you can create and continue stories.
+            </p>
           </div>
         ),
         {
           width: 1200,
           height: 1200,
+          emoji: "twemoji",
+          fonts: [
+            {
+              name: "Typewriter",
+              data: fontData,
+              style: "normal",
+            },
+          ],
         }
       );
     }
 
-    const { contents, sibling_ids, genesis_id } = await getVerseInfo(verseId);
+    const { contents, genesis_id } = await getVerseInfo(verseId);
 
     const isGenesisVerse = genesis_id === Number(verseId);
     const verseFullId = isGenesisVerse ? verseId : `${genesis_id}🍂${verseId}`;
@@ -47,12 +65,7 @@ export const GET = async (req: Request) => {
     const raw = contents
       .reverse()
       .map((data) => data.content.Data)
-      .join(",");
-
-    // Make sure the font exists in the specified path:
-    // const fontData = await fetch(
-    //   new URL("../../../assets/SpecialElite-Regular.ttf", import.meta.url)
-    // ).then((res) => res.arrayBuffer());
+      .join(", ");
 
     return new ImageResponse(
       (
@@ -66,23 +79,24 @@ export const GET = async (req: Request) => {
             height: "100%",
             backgroundColor: "black",
             gap: "1rem",
-            // fontFamily: '"Typewriter"',
+            fontFamily: '"Typewriter"',
           }}
         >
-          <h1 tw="text-white text-4xl">Welcome to Verse No.{verseFullId}</h1>
-          <p tw="text-white text-base m-4">{raw}</p>
+          <h1 tw="text-white text-6xl">Verse No.{verseFullId}</h1>
+          <p tw="text-white text-4xl m-12">{raw}</p>
         </div>
       ),
       {
         width: 1200,
         height: 1200,
-        // fonts: [
-        //   {
-        //     name: "Typewriter",
-        //     data: fontData,
-        //     style: "normal",
-        //   },
-        // ],
+        emoji: "twemoji",
+        fonts: [
+          {
+            name: "Typewriter",
+            data: fontData,
+            style: "normal",
+          },
+        ],
       }
     );
   } catch (e) {

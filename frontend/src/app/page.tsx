@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "of:post_url": `${env.NEXT_PUBLIC_BFF_API_URL}`,
     "fc:frame:post_url": `${env.NEXT_PUBLIC_BFF_API_URL}`,
     "of:input:text": "Verse Id",
-    "fc:frame:input:text": "Verse Id",
+    "fc:frame:input:text": "Jump to Verse ID",
     "of:button:1": "Enter Verse",
     "of:button:1:action": "post",
     "of:button:1:target": `${env.NEXT_PUBLIC_BFF_API_URL}/frames?type=enter-verse`,
