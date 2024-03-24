@@ -33,7 +33,7 @@ func GetParent(verseID uint) (*model.Sentence, error) {
 	}
 
 	if s.ParentID == nil {
-		return nil, errors.New("no parent found")
+		return nil, nil
 	}
 
 	parent, err := rdb.GetSentence(*s.ParentID)
