@@ -3,11 +3,11 @@ import { env } from "@/env.mjs";
 import { z } from "zod";
 
 export const traverseApiError = createError("TraverseApiError");
-export const zodError = createError("ZodError");
+export const zodError = createError("ValidationError");
 
 const VerseInfoSchema = z.object({
   contents: z.array(z.string()),
-  sibling_ids: z.array(z.string()).nullable(),
+  sibling_ids: z.array(z.number()).nullable(),
 });
 export const getVerseInfo = async (verse_id: string) =>
   fetch(`${env.BE_API_URL}/${verse_id}`, {
@@ -38,10 +38,10 @@ const CastSchema = z.object({
 export type Cast = z.infer<typeof CastSchema>;
 const PastVerseSchema = z.object({
   contents: z.array(z.string()),
-  parent_id: z.string().nullable(),
+  parent_id: z.number().nullable(),
   parent_cast: CastSchema.nullable(),
 });
-export const travelBack = async (verse_id: string) =>
+export const travelBack = async (verse_id: number) =>
   fetch(`${env.BE_API_URL}/${verse_id}/back`, {
     method: "GET",
   })
@@ -55,14 +55,14 @@ export const travelBack = async (verse_id: string) =>
     });
 
 const CreateVersePayloadSchema = z.object({
-  parent_id: z.string().optional(),
+  parent_id: z.number().optional(),
   content: z.string().min(1),
   cast: CastSchema,
   interactor: Userschema,
 });
 type CreateVersePayload = z.infer<typeof CreateVersePayloadSchema>;
 const CreateVerseResponseSchema = z.object({
-  verse_id: z.string().min(1),
+  verse_id: z.number(),
   contents: z.array(z.string()),
 });
 export const createVerse = async (payload: CreateVersePayload) => {

@@ -10,7 +10,7 @@ import { z } from "zod";
 
 const RequestQuerySchema = z.object({
   type: TargetTypeSchema,
-  verse_id: z.string().optional(),
+  verse_id: z.coerce.number().optional(),
 });
 
 const RequestBodySchema = FrameActionPayloadSchema;
@@ -141,7 +141,32 @@ export async function POST(req: Request) {
       })
 
       .exhaustive();
-  } catch (e) {
-    
+  } catch (error) {
+    match(error)
+      //
+      .with(
+        {
+          name: "SearchParamsError",
+        },
+        (error) => {}
+      )
+      .with(
+        {
+          name: "NoParentError",
+        },
+        (error) => {}
+      )
+      .with(
+        {
+          name: "InputNotProvided",
+        },
+        (error) => {}
+      )
+      .with(
+        {
+          name: "ValidationError",
+        },
+        (error) => {}
+      );
   }
 }

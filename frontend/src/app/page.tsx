@@ -3,7 +3,7 @@ import Head from "next/head";
 
 export default function Home() {
   return (
-    <>
+    <div>
       <Head>
         <meta property="of:image" content="" />
         <meta property="of:image:alt" content="" />
@@ -32,6 +32,6 @@ export default function Home() {
           A place where you can create and continue stories.
         </p>
       </main>
-    </>
+    </div>
   );
 }
