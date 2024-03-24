@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const TargetTypeSchema = z.union([
   z.literal("enter-verse"),
+  z.literal("to-create-story"),
   z.literal("create-story"),
   z.literal("travel-back"),
   z.literal("continue"),

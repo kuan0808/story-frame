@@ -62,7 +62,7 @@ export const GET = async (req: Request) => {
           <h1 tw="text-white text-4xl">Welcome to Verse No.{verseId}</h1>
           {contents.map((data, index) => (
             <span key={index} tw="text-base text-white">
-              {data.content}
+              {data.content.Data}
             </span>
           ))}
         </div>

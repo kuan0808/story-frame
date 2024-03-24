@@ -70,6 +70,28 @@ export async function POST(req: Request) {
           }
         );
       })
+      .with("to-create-story", () => {
+        return new Response(
+          computeOfHtml({
+            imagePath: `${env.NEXT_PUBLIC_BFF_API_URL}/og`,
+            components: [
+              {
+                type: "input",
+                label: "Write your genesis verse here",
+              },
+              {
+                type: "button",
+                label: "Create💥",
+                action: "post",
+                targetType: "create-story",
+              },
+            ],
+          }),
+          {
+            status: 200,
+          }
+        );
+      })
       .with(P.union("create-story", "continue"), async () => {
         const input = actionInfo.action.input?.text?.trim();
 

@@ -19,9 +19,15 @@ const CastSchema = z.object({
 });
 const ContentSchema = z.object({
   id: z.number(),
-  content: z.string(),
-  cast: CastSchema,
-  user: Userschema,
+  content: z.object({
+    Data: z.string(),
+  }),
+  cast: z.object({
+    Data: CastSchema,
+  }),
+  user: z.object({
+    Data: Userschema,
+  }),
 });
 const VerseInfoSchema = z.object({
   contents: z.array(ContentSchema),
