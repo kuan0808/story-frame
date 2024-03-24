@@ -1,9 +1,35 @@
 import { env } from "@/env.mjs";
+import { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Head from "next/head";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const PAGE_TITLE = "Story Verse";
+const PAGE_DESCRIPTION =
+  "Welcome to Story Verse, a place to create your own stories and share them with the world.";
+
+export const metadata: Metadata = {
+  title: {
+    template: `${PAGE_TITLE} | %s`,
+    default: PAGE_TITLE,
+  },
+  description: PAGE_DESCRIPTION,
+  openGraph: {
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+  },
+  other: {
+    "of:version": "vNext",
+    "fc:frame": "vNext",
+    "of:accepts:farcaster": "vNext",
+    "of:accepts:xmtp": "2024-02-01",
+    "of:post_url": `${env.NEXT_PUBLIC_BFF_API_URL}/frames`,
+    "fc:frame:post_url": `${env.NEXT_PUBLIC_BFF_API_URL}/frames`,
+    "of:image:aspect_ratio": "1:1",
+    "fc:frame:image:aspect_ratio": "1:1",
+  },
+};
 
 export default function RootLayout({
   children,
@@ -12,23 +38,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Head>
-        <title>Story Verse</title>
-        <meta property="of:version" content="vNext" />
-        <meta property="fc:frame" content="vNext" />
-        <meta property="of:accepts:farcaster" content="vNext" />
-        <meta property="of:accepts:xmtp" content="2024-02-01" />
-        <meta
-          property="of:post_url"
-          content={`${env.NEXT_PUBLIC_BFF_API_URL}/frames`}
-        />
-        <meta
-          property="fc:frame:post_url"
-          content={`${env.NEXT_PUBLIC_BFF_API_URL}/frames`}
-        />
-        <meta property="of:image:aspect_ratio" content="1:1" />
-        <meta property="fc:frame:image:aspect_ratio" content="1:1" />
-      </Head>
       <body className={inter.className}>{children}</body>
     </html>
   );

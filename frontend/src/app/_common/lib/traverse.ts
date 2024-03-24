@@ -83,3 +83,19 @@ export const createVerse = async (payload: CreateVersePayload) => {
       throw traverseApiError("Failed to create new verse", e);
     });
 };
+
+const GetGenesisIdResponseSchema = z.object({
+  genesis_verse_id: z.number(),
+});
+export const getGenesisVerseId = async (verseId: number) =>
+  fetch(`${env.BE_API_URL}/${verseId}/genesis`, {
+    method: "GET",
+  })
+    .then((res) => res.json())
+    .then((res) => GetGenesisIdResponseSchema.parse(res))
+    .catch((e) => {
+      if (e instanceof z.ZodError) {
+        throw zodError("Failed to parse genesis verse id", e);
+      }
+      throw traverseApiError("Failed to fetch genesis verse id", e);
+    });
