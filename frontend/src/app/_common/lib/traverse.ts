@@ -5,9 +5,28 @@ import { z } from "zod";
 export const traverseApiError = createError("TraverseApiError");
 export const zodError = createError("ValidationError");
 
+const Userschema = z.object({
+  object: z.literal("user"),
+  fid: z.number(),
+  username: z.string().min(1),
+  display_name: z.string().min(1),
+  pfp_url: z.string().url(),
+});
+
+const CastSchema = z.object({
+  hash: z.string().startsWith("0x"),
+  author: Userschema,
+});
+const ContentSchema = z.object({
+  id: z.number(),
+  content: z.string(),
+  cast: CastSchema,
+  user: Userschema,
+});
 const VerseInfoSchema = z.object({
-  contents: z.array(z.string()),
+  contents: z.array(ContentSchema),
   sibling_ids: z.array(z.number()).nullable(),
+  genesis_id: z.number().nullable(),
 });
 export const getVerseInfo = async (verse_id: string) =>
   fetch(`${env.BE_API_URL}/${verse_id}`, {
@@ -22,24 +41,12 @@ export const getVerseInfo = async (verse_id: string) =>
       throw traverseApiError("Failed to fetch verse info", e);
     });
 
-const Userschema = z.object({
-  object: z.literal("user"),
-  fid: z.number(),
-  username: z.string().min(1),
-  display_name: z.string().min(1),
-  pfp_url: z.string().url(),
-});
-
-const CastSchema = z.object({
-  hash: z.string().startsWith("0x"),
-  author: Userschema,
-});
-
 export type Cast = z.infer<typeof CastSchema>;
 const PastVerseSchema = z.object({
-  contents: z.array(z.string()),
+  contents: z.array(ContentSchema),
   parent_id: z.number().nullable(),
   parent_cast: CastSchema.nullable(),
+  genesis_id: z.number().nullable(),
 });
 export const travelBack = async (verse_id: number) =>
   fetch(`${env.BE_API_URL}/${verse_id}/back`, {
@@ -85,7 +92,7 @@ export const createVerse = async (payload: CreateVersePayload) => {
 };
 
 const GetGenesisIdResponseSchema = z.object({
-  genesis_verse_id: z.number(),
+  genesis_id: z.number(),
 });
 export const getGenesisVerseId = async (verseId: number) =>
   fetch(`${env.BE_API_URL}/${verseId}/genesis`, {

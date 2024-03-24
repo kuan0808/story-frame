@@ -14,13 +14,17 @@ export const generateMetadata = async ({
   let genesisVerseId = 0;
   try {
     const res = await getGenesisVerseId(Number(params.verse_id));
-    genesisVerseId = res.genesis_verse_id;
+    genesisVerseId = res.genesis_id;
   } catch (e) {
     console.error(e);
   }
+  const isGenesisVerse = genesisVerseId.toString() === params.verse_id;
+  const verseFullId = isGenesisVerse
+    ? params.verse_id
+    : `${genesisVerseId}🍂${params.verse_id}`;
 
   return {
-    title: `No.${genesisVerseId}🍂${params.verse_id}`,
+    title: `No.${verseFullId}`,
     description: `Welcome to Verse no.${params.verse_id}, a realm born from a series of choices within Genesis Verse no.${genesisVerseId}.`,
     openGraph: {
       images: [
@@ -58,10 +62,16 @@ const Verse = async ({
     verse_id: string;
   };
 }) => {
+  const { genesis_id } = await getGenesisVerseId(Number(params.verse_id));
+
+  const verseFullId = !!genesis_id
+    ? `${genesis_id}🍂${params.verse_id}`
+    : params.verse_id;
+
   return (
     <>
       <main>
-        <h1>Welcome to Verse No.{params.verse_id}</h1>
+        <h1>Welcome to Verse No.{verseFullId}</h1>
       </main>
     </>
   );
