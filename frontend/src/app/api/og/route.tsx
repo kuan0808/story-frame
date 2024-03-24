@@ -37,13 +37,20 @@ export const GET = async (req: Request) => {
       );
     }
 
-    const { contents, sibling_ids } = await getVerseInfo(verseId);
-    contents.reverse();
+    const { contents, sibling_ids, genesis_id } = await getVerseInfo(verseId);
+
+    const isGenesisVerse = genesis_id === Number(verseId);
+    const verseFullId = isGenesisVerse ? verseId : `${genesis_id}🍂${verseId}`;
+
+    const raw = contents
+      .reverse()
+      .map((data) => data.content.Data)
+      .join(",");
 
     // Make sure the font exists in the specified path:
-    const fontData = await fetch(
-      new URL("../../../assets/SpecialElite-Regular.ttf", import.meta.url)
-    ).then((res) => res.arrayBuffer());
+    // const fontData = await fetch(
+    //   new URL("../../../assets/SpecialElite-Regular.ttf", import.meta.url)
+    // ).then((res) => res.arrayBuffer());
 
     return new ImageResponse(
       (
@@ -56,27 +63,24 @@ export const GET = async (req: Request) => {
             width: "100%",
             height: "100%",
             backgroundColor: "black",
-            fontFamily: '"Typewriter"',
+            gap: "1rem",
+            // fontFamily: '"Typewriter"',
           }}
         >
-          <h1 tw="text-white text-4xl">Welcome to Verse No.{verseId}</h1>
-          {contents.map((data, index) => (
-            <span key={index} tw="text-base text-white">
-              {data.content.Data}
-            </span>
-          ))}
+          <h1 tw="text-white text-4xl">Welcome to Verse No.{verseFullId}</h1>
+          <p tw="text-white text-base m-4">{raw}</p>
         </div>
       ),
       {
         width: 1200,
         height: 1200,
-        fonts: [
-          {
-            name: "Typewriter",
-            data: fontData,
-            style: "normal",
-          },
-        ],
+        // fonts: [
+        //   {
+        //     name: "Typewriter",
+        //     data: fontData,
+        //     style: "normal",
+        //   },
+        // ],
       }
     );
   } catch (e) {}

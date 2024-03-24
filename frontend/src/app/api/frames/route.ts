@@ -164,6 +164,8 @@ export async function POST(req: Request) {
 
       .exhaustive();
   } catch (error) {
+    console.error(error);
+
     match(error)
       //
       .with(
