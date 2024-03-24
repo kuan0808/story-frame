@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { env } from "@/env.mjs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,8 +19,11 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta property="of:version" content="vNext" />
-        <meta property="of:accepts:vNext" />
-        <meta property="of:post_url" content="" />
+        <meta property="of:accepts:farcaster" content="vNext" />
+        <meta
+          property="of:post_url"
+          content={`${env.NEXT_PUBLIC_BFF_API_URL}/frames`}
+        />
       </head>
       <body className={inter.className}>{children}</body>
     </html>
