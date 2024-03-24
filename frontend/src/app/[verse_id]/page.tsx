@@ -64,9 +64,11 @@ const Verse = async ({
 }) => {
   const { genesis_id } = await getGenesisVerseId(Number(params.verse_id));
 
-  const verseFullId = !!genesis_id
-    ? `${genesis_id}🍂${params.verse_id}`
-    : params.verse_id;
+  const isGenesisVerse = genesis_id.toString() === params.verse_id;
+
+  const verseFullId = isGenesisVerse
+    ? params.verse_id
+    : `${genesis_id}🍂${params.verse_id}`;
 
   return (
     <>

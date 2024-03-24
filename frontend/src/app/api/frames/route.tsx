@@ -166,31 +166,48 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error(error);
 
-    match(error)
-      //
-      .with(
-        {
-          name: "SearchParamsError",
-        },
-        (error) => {}
-      )
-      .with(
-        {
-          name: "NoParentError",
-        },
-        (error) => {}
-      )
-      .with(
-        {
-          name: "InputNotProvided",
-        },
-        (error) => {}
-      )
-      .with(
-        {
-          name: "ValidationError",
-        },
-        (error) => {}
-      );
+    return new Response(
+      computeOfHtml({
+        imagePath: `/error.png`,
+        components: [
+          {
+            type: "button",
+            label: "Something went wrong. Please try again",
+            action: "post",
+            targetType: "to-create-story",
+          },
+        ],
+      }),
+      {
+        status: 200,
+      }
+    );
+
+    // match(error)
+    //   //
+    //   .with(
+    //     {
+    //       name: "SearchParamsError",
+    //     },
+    //     (error) => {}
+    //   )
+    //   .with(
+    //     {
+    //       name: "NoParentError",
+    //     },
+    //     (error) => {}
+    //   )
+    //   .with(
+    //     {
+    //       name: "InputNotProvided",
+    //     },
+    //     (error) => {}
+    //   )
+    //   .with(
+    //     {
+    //       name: "ValidationError",
+    //     },
+    //     (error) => {}
+    //   );
   }
 }
