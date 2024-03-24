@@ -17,13 +17,22 @@ export const GET = async (req: Request) => {
     if (!verseId) {
       return new ImageResponse(
         (
-          <div className="flex items-center justify-center bg-black w-full h-full">
-            <h1 className="text-white text-4xl">Welcome to Verse</h1>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              height: "100%",
+              backgroundColor: "black",
+            }}
+          >
+            <h1 tw="text-white text-4xl">Welcome to Story Verse</h1>
           </div>
         ),
         {
-          width: 600,
-          height: 600,
+          width: 1200,
+          height: 1200,
         }
       );
     }
@@ -39,20 +48,28 @@ export const GET = async (req: Request) => {
     return new ImageResponse(
       (
         <div
-          className="flex items-center justify-center bg-black w-full h-full"
           style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            height: "100%",
+            backgroundColor: "black",
             fontFamily: '"Typewriter"',
           }}
         >
-          <h1 className="text-white text-4xl">Welcome to Verse No.{verseId}</h1>
+          <h1 tw="text-white text-4xl">Welcome to Verse No.{verseId}</h1>
           {contents.map((content, index) => (
-            <span key={index}>{content}</span>
+            <span key={index} tw="text-base text-white">
+              {content}
+            </span>
           ))}
         </div>
       ),
       {
-        width: 600,
-        height: 600,
+        width: 1200,
+        height: 1200,
         fonts: [
           {
             name: "Typewriter",
