@@ -2,7 +2,7 @@ import { validateMessage } from "@/common/lib/neynar";
 import { Component, computeOfHtml } from "@/common/lib/of-html";
 import { createVerse, travelBack } from "@/common/lib/traverse";
 import { createError } from "@/common/lib/utils";
-import { computeCastUrl } from "@/common/lib/warpcast";
+import { computeCastComposerUrl, computeCastUrl } from "@/common/lib/warpcast";
 import { FrameActionPayloadSchema, TargetTypeSchema } from "@/common/model";
 import { env } from "@/env.mjs";
 import { P, match } from "ts-pattern";
@@ -120,7 +120,10 @@ export async function POST(req: Request) {
                 label: "Share Your Verse",
                 action: "link",
                 //TODO: Implement this
-                target: `${env.NEXT_PUBLIC_APP_URL}/${res.verse_id}?share_modal=open`,
+                target: computeCastComposerUrl(
+                  res.verse_id,
+                  "Dive into a universe of collaboration with me in story-verse! Let's weave new worlds together. 🌌✨\nRetweet to invite more creators into our multiverse. Your next chapter starts here:\n#StoryVerse #CreateWithUs"
+                ),
               },
             ],
           }),
