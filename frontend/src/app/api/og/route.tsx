@@ -83,7 +83,7 @@ export const GET = async (req: Request) => {
           }}
         >
           <h1 tw="text-white text-6xl">Verse No.{verseFullId}</h1>
-          <p tw="text-white text-4xl m-12">{raw}</p>
+          <p tw="text-white text-4xl m-12 leading-[1.5]">{raw}</p>
         </div>
       ),
       {
