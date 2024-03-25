@@ -62,7 +62,7 @@ export async function POST(req: Request) {
             label: "Travel Back",
             action: "post",
             targetType: "travel-back",
-            targetVerseId: parentVerse.parent_id,
+            targetVerseId: verseId,
           });
         }
 
