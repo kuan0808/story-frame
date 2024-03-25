@@ -6,7 +6,7 @@ const TypeWriterSubTitle = () => {
   return (
     <TypeIt
       as="h2"
-      className="text-3xl font-bold"
+      className="text-xl font-bold"
       options={{
         speed: 50,
       }}
