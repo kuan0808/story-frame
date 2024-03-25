@@ -36,6 +36,10 @@ export const computeOfHtml = (params: ComputeOfHtmlParams) => {
   let buttonIndex = 0;
   const head = `
     <head>
+      <meta property="fc:frame" content="vNext" />
+      <meta property="of:version" content="vNext" />
+      <meta property="of:accepts:farcaster" content="vNext" />
+      <meta property="of:accepts:xmtp" content="2024-02-01" />
       <meta property="of:image" content="${params.imagePath}" />
       <meta property="fc:frame:image" content="${params.imagePath}" />
       <meta property="of:image:alt" content="${params.imageAlt}" />
