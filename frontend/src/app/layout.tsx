@@ -1,9 +1,13 @@
 import { env } from "@/env.mjs";
 import { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
+
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const typeWriter = localFont({
+  src: "../assets/SpecialElite-Regular.ttf",
+  display: "swap",
+});
 
 const PAGE_TITLE = "Story Verse";
 const PAGE_DESCRIPTION =
@@ -38,7 +42,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`w-full h-screen min-h-screen ${typeWriter.className}`}>
+        {children}
+      </body>
     </html>
   );
 }

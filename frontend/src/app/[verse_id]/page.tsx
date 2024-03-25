@@ -1,6 +1,7 @@
 import { getGenesisVerseId, getVerseInfo } from "@/common/lib/traverse";
 import { env } from "@/env.mjs";
 import { Metadata } from "next";
+import { Story } from "./_components/Story";
 
 type Props = {
   params: {
@@ -73,10 +74,16 @@ const Verse = async ({
     ? params.verse_id
     : `${genesis_id}🍂${params.verse_id}`;
 
+  const verseInfo = await getVerseInfo(params.verse_id);
+  const { contents } = verseInfo;
+
   return (
     <>
-      <main>
-        <h1 className="text-6xl">Welcome to Verse No.{verseFullId}</h1>
+      <main className="text-black space-y-10 h-full p-10 pl-[72px] max-w-[860px] mx-auto bg-[url('/paper.avif')] bg-center bg-no-repeat bg-cover">
+        <h1 className="text-4xl">Welcome to Verse No.{verseFullId}</h1>
+        <div>
+          <Story contents={contents} />
+        </div>
       </main>
     </>
   );

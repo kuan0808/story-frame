@@ -29,6 +29,7 @@ const ContentSchema = z.object({
     Data: Userschema,
   }),
 });
+export type Content = z.infer<typeof ContentSchema>;
 const VerseInfoSchema = z.object({
   contents: z.array(ContentSchema),
   // sibling_ids: z.array(z.number()).nullable(),
