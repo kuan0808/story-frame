@@ -1,8 +1,7 @@
 import { cn } from "@/common/lib/utils";
 import { env } from "@/env.mjs";
 import { Metadata } from "next";
-import { TypeWriterSubTitle } from "./_components/TypeWriterSubTitle";
-import { TypeWriterTitle } from "./_components/TypeWriterTitle";
+import { CTA, TypeWriterSubTitle, TypeWriterTitle } from "./_components";
 
 export const metadata: Metadata = {
   openGraph: {
@@ -42,25 +41,14 @@ export default function Home() {
     <div>
       <main
         className={cn(
-          "text-black flex min-h-screen flex-col items-center justify-center p-24 gap-10",
+          "text-black flex min-h-screen flex-col items-center justify-center p-2 text-center md:p-24 gap-4 md:gap-10",
           "bg-[url('/book.jpg')] bg-center bg-no-repeat bg-cover"
         )}
       >
-        {/* <Typewriter
-          onInit={(typewriter) => {
-            typewriter
-              .typeString("Welcome to Story Frame")
-              .callFunction(() => {
-                console.log("String typed out!");
-              })
-              .pauseFor(2500)
-              .deleteChars(5)
-              .typeString("Verse")
-              .start();
-          }}
-        /> */}
         <TypeWriterTitle />
         <TypeWriterSubTitle />
+
+        <CTA />
       </main>
     </div>
   );

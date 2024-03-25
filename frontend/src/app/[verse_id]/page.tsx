@@ -79,8 +79,10 @@ const Verse = async ({
 
   return (
     <>
-      <main className="text-black space-y-10 h-full p-10 pl-[72px] max-w-[860px] mx-auto bg-[url('/paper.avif')] bg-center bg-no-repeat bg-cover">
-        <h1 className="text-4xl">Welcome to Verse No.{verseFullId}</h1>
+      <main className="text-black space-y-4 md:space-y-10 h-full p-4 md:p-10 pl-[24px] pt-10 md:pl-[72px] max-w-[860px] mx-auto bg-[url('/paper.avif')] bg-center bg-no-repeat bg-cover">
+        <h1 className="text-4xl text-center">
+          Welcome to Verse No.{verseFullId}
+        </h1>
         <div>
           <Story contents={contents} />
         </div>

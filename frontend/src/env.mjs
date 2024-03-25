@@ -12,6 +12,9 @@ export const env = createEnv({
     NEXT_PUBLIC_BFF_API_URL: z.string().min(1),
     NEXT_PUBLIC_WARPCAST_URI: z.string().min(1),
     NEXT_PUBLIC_APP_URL: z.string().min(1),
+    NEXT_PUBLIC_GENESIS_CAST_URL: z
+      .string()
+      .default("https://warpcast.com/kuannnn/0xd60a1422"),
   },
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
@@ -20,5 +23,6 @@ export const env = createEnv({
     NEXT_PUBLIC_BFF_API_URL: process.env.NEXT_PUBLIC_BFF_API_URL,
     NEXT_PUBLIC_WARPCAST_URI: process.env.NEXT_PUBLIC_WARPCAST_URI,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    NEXT_PUBLIC_GENESIS_CAST_URL: process.env.NEXT_PUBLIC_GENESIS_CAST_URL,
   },
 });

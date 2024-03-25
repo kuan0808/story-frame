@@ -9,10 +9,13 @@ export const computeCastUrl = (cast: Cast) => {
   return `${env.NEXT_PUBLIC_WARPCAST_URI}/${cast.author.username}/${castHash}`;
 };
 
-export const computeCastComposerUrl = (verseId: number, text?: string) => {
+export const computeCastComposerUrl = (
+  verseId: number | null,
+  text?: string
+) => {
   const searchParams = new URLSearchParams({
     ...(text && { text }),
-    ["embeds[]"]: `${env.NEXT_PUBLIC_APP_URL}/${verseId}`,
+    ["embeds[]"]: `${env.NEXT_PUBLIC_APP_URL}/${verseId ?? ""}`,
   });
 
   return `${env.NEXT_PUBLIC_WARPCAST_URI}/~/compose?${searchParams.toString()}`;
